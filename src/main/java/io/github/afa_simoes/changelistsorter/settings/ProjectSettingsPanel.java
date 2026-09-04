@@ -4,7 +4,7 @@ import com.intellij.openapi.Disposable;
 import com.intellij.ui.table.JBTable;
 import io.github.afa_simoes.changelistsorter.ChangelistOrganizerIcons;
 import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
-import io.github.afa_simoes.changelistsorter.ChangelistOrganizerStrings;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerBundle;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class ProjectSettingsPane implements Disposable {
+public class ProjectSettingsPanel implements Disposable {
     private JPanel panel;
     private JBTable table;
     private JButton addButton;
@@ -33,7 +33,7 @@ public class ProjectSettingsPane implements Disposable {
 
     private boolean modified = false;
 
-    public ProjectSettingsPane() {
+    public ProjectSettingsPanel() {
         super();
 
         table.setModel(tableModel);
@@ -124,11 +124,11 @@ public class ProjectSettingsPane implements Disposable {
 
     public static class TableModel extends AbstractTableModel
     {
-        private final String[] columnNames = new String[] { ChangelistOrganizerStrings.message("settings.table.column.enabled"),
-                                                            ChangelistOrganizerStrings.message("settings.table.column.changelist.name"),
-                                                            ChangelistOrganizerStrings.message("settings.table.column.file.pattern"),
-                                                            ChangelistOrganizerStrings.message("settings.table.column.check.full.path"),
-                                                            ChangelistOrganizerStrings.message("settings.table.column.confirmation.dialog") };
+        private final String[] columnNames = new String[] { ChangelistOrganizerBundle.message("settings.table.column.enabled"),
+                                                            ChangelistOrganizerBundle.message("settings.table.column.changelist.name"),
+                                                            ChangelistOrganizerBundle.message("settings.table.column.file.pattern"),
+                                                            ChangelistOrganizerBundle.message("settings.table.column.check.full.path"),
+                                                            ChangelistOrganizerBundle.message("settings.table.column.confirmation.dialog") };
 
         private final java.util.List<ChangelistOrganizerItem> data = new ArrayList<>();
         private boolean modified = false;

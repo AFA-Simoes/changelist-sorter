@@ -4,14 +4,14 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
-import io.github.afa_simoes.changelistsorter.ChangelistOrganizerStrings;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerBundle;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JComponent;
 
 public class ProjectSettingsConfigurable implements Configurable {
-    private ProjectSettingsPane projectSettingsPane;
+    private ProjectSettingsPanel projectSettingsPane;
     private final Project project;
 
     public ProjectSettingsConfigurable(Project project) {
@@ -21,7 +21,7 @@ public class ProjectSettingsConfigurable implements Configurable {
     @Nls
     @Override
     public String getDisplayName() {
-        return ChangelistOrganizerStrings.message("settings.display.name");
+        return ChangelistOrganizerBundle.message("settings.display.name");
     }
 
     @Nullable
@@ -34,7 +34,7 @@ public class ProjectSettingsConfigurable implements Configurable {
     @Override
     public JComponent createComponent() {
         if (projectSettingsPane == null) {
-            projectSettingsPane = new ProjectSettingsPane();
+            projectSettingsPane = new ProjectSettingsPanel();
         }
 
         return projectSettingsPane.getPanel();

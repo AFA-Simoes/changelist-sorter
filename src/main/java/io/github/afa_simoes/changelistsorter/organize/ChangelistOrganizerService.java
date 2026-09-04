@@ -1,4 +1,4 @@
-package io.github.afa_simoes.changelistsorter;
+package io.github.afa_simoes.changelistsorter.organize;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -7,9 +7,12 @@ import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerBundle;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerIcons;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
 import io.github.afa_simoes.changelistsorter.settings.ProjectSettings;
 
-public class ChangelistOrganizer {
+public class ChangelistOrganizerService {
     public synchronized static void organize(Project project) {
         if (project == null) {
             return;
@@ -44,11 +47,11 @@ public class ChangelistOrganizer {
                                 // check if we need to show a confirmation-dialog
                                 if (changelistOrganizerItem.isConfirmationDialog()) {
                                     // show the confirmation-dialog and set the flag accordingly
-                                    performMove = Messages.showOkCancelDialog(project, ChangelistOrganizerStrings.message("organize.confirmation.dialog.message", virtualFile.getName(), changelistOrganizerItem.getChangeListName()), ChangelistOrganizerStrings.message("organize.confirmation.dialog.title"), Messages.getOkButton(), Messages.getCancelButton(), ChangelistOrganizerIcons.get("icon_32x32.png")) == Messages.OK;
+                                    performMove = Messages.showOkCancelDialog(project, ChangelistOrganizerBundle.message("organize.confirmation.dialog.message", virtualFile.getName(), changelistOrganizerItem.getChangeListName()), ChangelistOrganizerBundle.message("organize.confirmation.dialog.title"), Messages.getOkButton(), Messages.getCancelButton(), ChangelistOrganizerIcons.get("icon_32x32.png")) == Messages.OK;
                                 }
 
                                 if (performMove) {
-                                    LocalChangeList localChangeList = changeListManager.addChangeList(changelistOrganizerItem.getChangeListName(), ChangelistOrganizerStrings.message("organize.changelist.comment"));
+                                    LocalChangeList localChangeList = changeListManager.addChangeList(changelistOrganizerItem.getChangeListName(), ChangelistOrganizerBundle.message("organize.changelist.comment"));
                                     changeListManager.moveChangesTo(localChangeList, ArrayUtil.toObjectArray(changeListManager.getChangesIn(virtualFile), Change.class));
                                 }
 

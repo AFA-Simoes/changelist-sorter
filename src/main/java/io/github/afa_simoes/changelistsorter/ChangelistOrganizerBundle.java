@@ -8,7 +8,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
 
-public class ChangelistOrganizerStrings {
+public class ChangelistOrganizerBundle {
     private static Reference<ResourceBundle> ourBundle;
 
     @NonNls
