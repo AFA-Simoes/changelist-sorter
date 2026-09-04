@@ -1,4 +1,4 @@
-package de.achimonline.changelistorganizer;
+package io.github.afa_simoes.changelistsorter;
 
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
@@ -7,7 +7,7 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeList;
 import com.intellij.openapi.vcs.changes.ChangeListListener;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
-import de.achimonline.changelistorganizer.settings.ProjectSettings;
+import io.github.afa_simoes.changelistsorter.settings.ProjectSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

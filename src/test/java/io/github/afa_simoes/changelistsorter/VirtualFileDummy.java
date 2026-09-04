@@ -1,4 +1,4 @@
-package de.achimonline.changelistorganizer;
+package io.github.afa_simoes.changelistsorter;
 
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileSystem;

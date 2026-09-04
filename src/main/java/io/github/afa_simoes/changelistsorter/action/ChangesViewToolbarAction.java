@@ -1,11 +1,11 @@
-package de.achimonline.changelistorganizer.action;
+package io.github.afa_simoes.changelistsorter.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import de.achimonline.changelistorganizer.ChangelistOrganizer;
-import de.achimonline.changelistorganizer.ChangelistOrganizerIcons;
-import de.achimonline.changelistorganizer.ChangelistOrganizerStrings;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizer;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerIcons;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerStrings;
 
 public class ChangesViewToolbarAction extends AnAction {
     public ChangesViewToolbarAction() {

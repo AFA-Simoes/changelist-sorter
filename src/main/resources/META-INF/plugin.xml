@@ -1,12 +1,12 @@
 <idea-plugin>
 
-  <id>de.achimonline.changelistorganizer</id>
-  <name>Changelist Organizer</name>
+  <id>io.github.afa_simoes.changelistsorter</id>
+  <name>Changelist Sorter</name>
 
   <vendor
-      email="intellij@achimonline.de"
-      url="https://www.achimonline.de">
-          Achim Seufert
+      email="57225419+AFA-Simoes@users.noreply.github.com"
+      url="https://github.com/AFA-Simoes/changelist-sorter">
+          AFA-Simoes
   </vendor>
 
   <depends>com.intellij.modules.vcs</depends>
@@ -14,23 +14,23 @@
   <extensions defaultExtensionNs="com.intellij">
     <projectConfigurable id="ChangelistOrganizer"
                          groupId="tools"
-                         instance="de.achimonline.changelistorganizer.settings.ProjectSettingsConfigurable"
+                         instance="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsConfigurable"
                          key="settings.project.groupTitle"
-                         bundle="de.achimonline.changelistorganizer.changelistorganizer" />
-    <projectService serviceImplementation="de.achimonline.changelistorganizer.settings.ProjectSettingsService"/>
+                         bundle="io.github.afa_simoes.changelistsorter.changelistorganizer" />
+    <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsService"/>
   </extensions>
 
   <actions>
-    <action id="ChangesViewToolbarAction" class="de.achimonline.changelistorganizer.action.ChangesViewToolbarAction">
+    <action id="ChangesViewToolbarAction" class="io.github.afa_simoes.changelistsorter.action.ChangesViewToolbarAction">
       <add-to-group group-id="ChangesViewToolbar" anchor="last"/>
     </action>
-    <action id="SelectedChangelistPopupAction" class="de.achimonline.changelistorganizer.action.SelectedChangelistPopupAction">
+    <action id="SelectedChangelistPopupAction" class="io.github.afa_simoes.changelistsorter.action.SelectedChangelistPopupAction">
       <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
     </action>
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-    <postStartupActivity implementation="de.achimonline.changelistorganizer.ChangelistOrganizerListener"/>
+    <postStartupActivity implementation="io.github.afa_simoes.changelistsorter.ChangelistOrganizerListener"/>
   </extensions>
 
 </idea-plugin>

@@ -1,4 +1,4 @@
-package de.achimonline.changelistorganizer.settings;
+package io.github.afa_simoes.changelistsorter.settings;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;

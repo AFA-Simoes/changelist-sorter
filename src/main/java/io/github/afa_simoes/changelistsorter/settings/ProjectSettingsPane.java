@@ -1,10 +1,10 @@
-package de.achimonline.changelistorganizer.settings;
+package io.github.afa_simoes.changelistsorter.settings;
 
 import com.intellij.openapi.Disposable;
 import com.intellij.ui.table.JBTable;
-import de.achimonline.changelistorganizer.ChangelistOrganizerIcons;
-import de.achimonline.changelistorganizer.ChangelistOrganizerItem;
-import de.achimonline.changelistorganizer.ChangelistOrganizerStrings;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerIcons;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerStrings;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

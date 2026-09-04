@@ -1,4 +1,4 @@
-package de.achimonline.changelistorganizer;
+package io.github.afa_simoes.changelistsorter;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -7,7 +7,7 @@ import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
-import de.achimonline.changelistorganizer.settings.ProjectSettings;
+import io.github.afa_simoes.changelistsorter.settings.ProjectSettings;
 
 public class ChangelistOrganizer {
     public synchronized static void organize(Project project) {

@@ -1,7 +1,7 @@
-package de.achimonline.changelistorganizer.settings;
+package io.github.afa_simoes.changelistsorter.settings;
 
 import com.intellij.openapi.project.Project;
-import de.achimonline.changelistorganizer.ChangelistOrganizerItem;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
 import lombok.Data;
 
 import java.io.Serializable;

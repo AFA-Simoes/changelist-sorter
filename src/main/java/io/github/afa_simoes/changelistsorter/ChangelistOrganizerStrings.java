@@ -1,4 +1,4 @@
-package de.achimonline.changelistorganizer;
+package io.github.afa_simoes.changelistsorter;
 
 import com.intellij.AbstractBundle;
 import org.jetbrains.annotations.NonNls;
@@ -12,7 +12,7 @@ public class ChangelistOrganizerStrings {
     private static Reference<ResourceBundle> ourBundle;
 
     @NonNls
-    private static final String BUNDLE = "de.achimonline.changelistorganizer.changelistorganizer";
+    private static final String BUNDLE = "io.github.afa_simoes.changelistsorter.changelistorganizer";
 
     public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
         return AbstractBundle.message(getBundle(), key, params);

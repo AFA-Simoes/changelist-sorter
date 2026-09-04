@@ -1,3 +1,16 @@
+# Changelog
+
+All notable changes to Changelist Sorter, a fork and continuation of
+[4ch1m/ChangelistOrganizer](https://github.com/4ch1m/ChangelistOrganizer) by Achim Seufert.
+Entries below 2.0.0 are from the original project and are retained for provenance.
+
+## [Unreleased]
+
+### Changed
+- forked and renamed to "Changelist Sorter"; published under a new plugin ID
+  (`io.github.afa_simoes.changelistsorter`) as a separate Marketplace listing
+- settings storage is unchanged, so existing Changelist Organizer rules are picked up automatically
+
 ## [1.10.3]
 
 ### Changed
