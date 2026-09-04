@@ -18,9 +18,9 @@ public class OrganizeOnChangeListener implements StartupActivity, DumbAware {
     public void runActivity(@NotNull Project project) {
         ChangeListManager.getInstance(project).addChangeListListener(new ChangeListListener() {
             @Override
-            public void changesAdded(Collection<Change> changes, ChangeList toList) {
+            public void changesAdded(Collection<? extends Change> changes, ChangeList toList) {
                 if (ProjectSettings.storedSettings(project).isAutomaticallyOrganize()) {
-                    ChangelistOrganizerService.organize(project);
+                    ChangelistOrganizerService.getInstance(project).organize();
                 }
             }
         });

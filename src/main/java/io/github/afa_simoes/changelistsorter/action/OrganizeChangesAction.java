@@ -14,6 +14,6 @@ public class OrganizeChangesAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-        ChangelistOrganizerService.organize(anActionEvent.getRequiredData(CommonDataKeys.PROJECT));
+        ChangelistOrganizerService.getInstance(anActionEvent.getRequiredData(CommonDataKeys.PROJECT)).organize();
     }
 }
