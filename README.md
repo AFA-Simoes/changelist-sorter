@@ -6,6 +6,8 @@ This IntelliJ plugin helps you organize your changelists with a single click.
 Define the changelists you want and assign files to them via simple wildcard patterns,
 either on demand or automatically as files are modified.
 
+Requires IntelliJ IDEA (or another IntelliJ-based IDE) **2025.2 or newer**.
+
 ## Fork notice
 
 **Changelist Sorter is a fork and continuation of

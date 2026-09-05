@@ -6,10 +6,29 @@ Entries below 2.0.0 are from the original project and are retained for provenanc
 
 ## [Unreleased]
 
+## [2.0.0]
+
 ### Changed
 - forked and renamed to "Changelist Sorter"; published under a new plugin ID
   (`io.github.afa_simoes.changelistsorter`) as a separate Marketplace listing
 - settings storage is unchanged, so existing Changelist Organizer rules are picked up automatically
+- **raised the minimum supported IDE version to 2025.2** (build 252); the plugin no longer
+  installs on 2022.2–2025.1
+- rebuilt on the IntelliJ Platform Gradle Plugin 2.x, Gradle 9, and a Java 21 toolchain
+- rewrote the settings UI with platform components (`ToolbarDecorator`/`TableView`) instead of
+  a hand-rolled GUI-Designer form
+- `Cancel` in the settings dialog now correctly discards in-progress edits instead of writing
+  them straight into persisted state, and `Apply` now re-disables itself after being pressed
+- automatic organizing no longer risks re-entering itself through its own change-list listener,
+  and no longer shows more than one confirmation dialog per run, or on a VCS callback thread
+
+### Fixed
+- **corrected wildcard-to-regex pattern matching**: `?` now matches exactly one character
+  (previously it matched zero-or-one, so e.g. `Foo?.txt` incorrectly matched `Foo.txt`), and
+  regex metacharacters in a pattern (`( ) [ ] + $ ^ { } |`) are now escaped instead of being
+  interpreted as regex syntax
+- a file's current changelist is now null-checked before use, instead of being unconditionally
+  dereferenced
 
 ## [1.10.3]
 
