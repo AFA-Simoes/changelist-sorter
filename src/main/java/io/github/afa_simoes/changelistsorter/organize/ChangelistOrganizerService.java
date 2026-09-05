@@ -135,7 +135,7 @@ public final class ChangelistOrganizerService {
                 ChangelistOrganizerBundle.message("organize.confirmation.dialog.title"),
                 Messages.getOkButton(),
                 Messages.getCancelButton(),
-                ChangelistOrganizerIcons.get("icon_32x32.png")
+                ChangelistOrganizerIcons.ORGANIZE_LARGE
         ) == Messages.OK);
 
         return confirmed[0];

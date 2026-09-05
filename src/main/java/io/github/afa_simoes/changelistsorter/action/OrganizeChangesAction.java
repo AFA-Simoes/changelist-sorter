@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OrganizeChangesAction extends AnAction {
     public OrganizeChangesAction() {
-        super(ChangelistOrganizerIcons.get("icon_16x16.png"));
+        super(ChangelistOrganizerIcons.ORGANIZE);
     }
 
     @Override

@@ -1,35 +1,26 @@
 package io.github.afa_simoes.changelistsorter;
 
-import com.intellij.AbstractBundle;
+import com.intellij.DynamicBundle;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.PropertyKey;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.ResourceBundle;
-
-public class ChangelistOrganizerBundle {
-    private static Reference<ResourceBundle> ourBundle;
-
+/**
+ * Extends {@link DynamicBundle} (rather than hand-rolling {@code AbstractBundle} +
+ * {@code SoftReference<ResourceBundle>} caching) so message lookups also pick up any installed
+ * IDE language pack.
+ */
+public final class ChangelistOrganizerBundle extends DynamicBundle {
     @NonNls
-    private static final String BUNDLE = "io.github.afa_simoes.changelistsorter.changelistorganizer";
+    private static final String BUNDLE = "messages.ChangelistOrganizerBundle";
 
-    public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
-        return AbstractBundle.message(getBundle(), key, params);
+    private static final ChangelistOrganizerBundle INSTANCE = new ChangelistOrganizerBundle();
+
+    private ChangelistOrganizerBundle() {
+        super(BUNDLE);
     }
 
-    private static ResourceBundle getBundle() {
-        ResourceBundle bundle = null;
-
-        if (ourBundle != null) {
-            bundle = ourBundle.get();
-        }
-
-        if (bundle == null) {
-            bundle = ResourceBundle.getBundle(BUNDLE);
-            ourBundle = new SoftReference<>(bundle);
-        }
-
-        return bundle;
+    public static @NotNull String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, Object @NotNull ... params) {
+        return INSTANCE.getMessage(key, params);
     }
 }

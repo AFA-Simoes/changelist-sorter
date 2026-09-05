@@ -12,14 +12,14 @@
   <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.vcs</depends>
 
-  <resource-bundle>io.github.afa_simoes.changelistsorter.changelistorganizer</resource-bundle>
+  <resource-bundle>messages.ChangelistOrganizerBundle</resource-bundle>
 
   <extensions defaultExtensionNs="com.intellij">
     <projectConfigurable id="ChangelistOrganizer"
                          groupId="tools"
                          instance="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsConfigurable"
                          key="settings.project.groupTitle"
-                         bundle="io.github.afa_simoes.changelistsorter.changelistorganizer" />
+                         bundle="messages.ChangelistOrganizerBundle" />
     <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsService"/>
     <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.organize.ChangelistOrganizerService"/>
   </extensions>
