@@ -9,8 +9,11 @@
           AFA-Simoes
   </vendor>
 
+  <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.vcs</depends>
-  
+
+  <resource-bundle>io.github.afa_simoes.changelistsorter.changelistorganizer</resource-bundle>
+
   <extensions defaultExtensionNs="com.intellij">
     <projectConfigurable id="ChangelistOrganizer"
                          groupId="tools"
@@ -18,19 +21,21 @@
                          key="settings.project.groupTitle"
                          bundle="io.github.afa_simoes.changelistsorter.changelistorganizer" />
     <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsService"/>
+    <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.organize.ChangelistOrganizerService"/>
   </extensions>
 
+  <projectListeners>
+    <listener class="io.github.afa_simoes.changelistsorter.listener.OrganizeOnChangeListener"
+              topic="com.intellij.openapi.vcs.changes.ChangeListListener"/>
+  </projectListeners>
+
   <actions>
-    <action id="ChangesViewToolbarAction" class="io.github.afa_simoes.changelistsorter.action.ChangesViewToolbarAction">
+    <action id="ChangesViewToolbarAction" class="io.github.afa_simoes.changelistsorter.action.OrganizeChangesAction">
       <add-to-group group-id="ChangesViewToolbar" anchor="last"/>
     </action>
-    <action id="SelectedChangelistPopupAction" class="io.github.afa_simoes.changelistsorter.action.SelectedChangelistPopupAction">
+    <action id="SelectedChangelistPopupAction" class="io.github.afa_simoes.changelistsorter.action.OrganizeChangesAction">
       <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
     </action>
   </actions>
-
-  <extensions defaultExtensionNs="com.intellij">
-    <postStartupActivity implementation="io.github.afa_simoes.changelistsorter.ChangelistOrganizerListener"/>
-  </extensions>
 
 </idea-plugin>
