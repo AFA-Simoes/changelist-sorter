@@ -39,6 +39,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    // The IntelliJ Platform Gradle Plugin's sandboxed test runner bridges through JUnit 4
+    // internals (org.junit.runners.model.Statement) even for a pure JUnit 5 suite.
+    testRuntimeOnly("junit:junit:4.13.2")
+
     testImplementation("org.mockito:mockito-core:5.23.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
 }

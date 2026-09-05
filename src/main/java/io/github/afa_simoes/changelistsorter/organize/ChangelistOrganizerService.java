@@ -70,7 +70,10 @@ public final class ChangelistOrganizerService {
         }
     }
 
-    private OrganizePlan plan(ProjectSettings settings, ChangeListManager changeListManager) {
+    // Package-private rather than private so ChangelistOrganizerServiceTest can build a plan
+    // directly from injected settings, without needing to mock the static
+    // ProjectSettings.storedSettings(Project) lookup that organize() otherwise goes through.
+    OrganizePlan plan(ProjectSettings settings, ChangeListManager changeListManager) {
         OrganizePlan plan = new OrganizePlan();
         RuleMatcher ruleMatcher = new RuleMatcher(settings.getChangelistOrganizerItems());
 
