@@ -18,11 +18,8 @@ public class ProjectSettings implements Serializable {
 
     public static ProjectSettings storedSettings(Project project) {
         ProjectSettingsService projectSettingsService = project.getService(ProjectSettingsService.class);
+        ProjectSettings state = projectSettingsService != null ? projectSettingsService.getState() : null;
 
-        if (projectSettingsService == null) {
-            return new ProjectSettings();
-        }
-
-        return projectSettingsService.getState();
+        return state != null ? state : new ProjectSettings();
     }
- }
+}

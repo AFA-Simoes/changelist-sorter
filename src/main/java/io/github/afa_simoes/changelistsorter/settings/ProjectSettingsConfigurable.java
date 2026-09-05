@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.JComponent;
 
 public class ProjectSettingsConfigurable implements Configurable {
-    private ProjectSettingsPanel projectSettingsPane;
+    private ProjectSettingsPanel projectSettingsPanel;
     private final Project project;
 
     public ProjectSettingsConfigurable(Project project) {
@@ -33,37 +33,41 @@ public class ProjectSettingsConfigurable implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        if (projectSettingsPane == null) {
-            projectSettingsPane = new ProjectSettingsPanel();
+        if (projectSettingsPanel == null) {
+            projectSettingsPanel = new ProjectSettingsPanel();
         }
 
-        return projectSettingsPane.getPanel();
+        return projectSettingsPanel.getPanel();
     }
 
     @Override
     public boolean isModified() {
-        if (project == null) {
+        if (project == null || projectSettingsPanel == null) {
             return false;
         }
 
-        return projectSettingsPane != null && projectSettingsPane.isModified();
+        return !projectSettingsPanel.getState().equals(ProjectSettings.storedSettings(project));
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        projectSettingsPane.storeSettings(ProjectSettings.storedSettings(project));
+        ProjectSettingsService projectSettingsService = project.getService(ProjectSettingsService.class);
+
+        if (projectSettingsService != null) {
+            projectSettingsService.loadState(projectSettingsPanel.getState());
+        }
     }
 
     @Override
     public void reset() {
-        projectSettingsPane.setData(ProjectSettings.storedSettings(project));
+        projectSettingsPanel.setState(ProjectSettings.storedSettings(project));
     }
 
     @Override
     public void disposeUIResources() {
-        if (projectSettingsPane != null) {
-            Disposer.dispose(projectSettingsPane);
-            this.projectSettingsPane = null;
+        if (projectSettingsPanel != null) {
+            Disposer.dispose(projectSettingsPanel);
+            this.projectSettingsPanel = null;
         }
     }
 }

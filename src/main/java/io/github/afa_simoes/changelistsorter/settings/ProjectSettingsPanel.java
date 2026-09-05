@@ -1,249 +1,256 @@
 package io.github.afa_simoes.changelistsorter.settings;
 
 import com.intellij.openapi.Disposable;
-import com.intellij.ui.table.JBTable;
-import io.github.afa_simoes.changelistsorter.ChangelistOrganizerIcons;
-import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
+import com.intellij.ui.ToolbarDecorator;
+import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.table.TableView;
+import com.intellij.util.ui.ColumnInfo;
+import com.intellij.util.ui.FormBuilder;
+import com.intellij.util.ui.ListTableModel;
 import io.github.afa_simoes.changelistsorter.ChangelistOrganizerBundle;
+import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Settings UI for the project's organizer rules: a reorderable table of
+ * {@link ChangelistOrganizerItem} rows plus a handful of behaviour checkboxes.
+ *
+ * <p>Replaces the old GUI-Designer-bound pane (deleted {@code ProjectSettingsPane.form}) with
+ * platform components ({@link ToolbarDecorator} / {@link TableView}), which also gets rid of a
+ * {@code getColumnClass} that threw on an empty table.
+ */
 public class ProjectSettingsPanel implements Disposable {
-    private JPanel panel;
-    private JBTable table;
-    private JButton addButton;
-    private JButton deleteButton;
-    private JButton upButton;
-    private JButton downButton;
-    private JCheckBox onlyApplyItemsOnDefaultChangelistCheckBox;
-    private JCheckBox stopApplyingItemsAfterFirstMatchCheckBox;
-    private JCheckBox removeEmptyChangelistsCheckBox;
-    private JCheckBox automaticallyOrganizeCheckBox;
+    private static final ColumnInfo<ChangelistOrganizerItem, Boolean> ENABLED_COLUMN =
+            new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.enabled")) {
+                @Override
+                public Boolean valueOf(ChangelistOrganizerItem item) {
+                    return item.isEnabled();
+                }
 
-    private final TableModel tableModel = new TableModel(new ArrayList<>());
+                @Override
+                public boolean isCellEditable(ChangelistOrganizerItem item) {
+                    return true;
+                }
 
-    private boolean modified = false;
+                @Override
+                public void setValue(ChangelistOrganizerItem item, Boolean value) {
+                    item.setEnabled(value);
+                }
+
+                @Override
+                public Class<?> getColumnClass() {
+                    return Boolean.class;
+                }
+            };
+
+    private static final ColumnInfo<ChangelistOrganizerItem, String> CHANGE_LIST_NAME_COLUMN =
+            new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.changelist.name")) {
+                @Override
+                public String valueOf(ChangelistOrganizerItem item) {
+                    return item.getChangeListName() != null ? item.getChangeListName() : "";
+                }
+
+                @Override
+                public boolean isCellEditable(ChangelistOrganizerItem item) {
+                    return true;
+                }
+
+                @Override
+                public void setValue(ChangelistOrganizerItem item, String value) {
+                    item.setChangeListName(value);
+                }
+            };
+
+    private static final ColumnInfo<ChangelistOrganizerItem, String> FILE_PATTERN_COLUMN =
+            new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.file.pattern")) {
+                @Override
+                public String valueOf(ChangelistOrganizerItem item) {
+                    return item.getFilePattern() != null ? item.getFilePattern() : "";
+                }
+
+                @Override
+                public boolean isCellEditable(ChangelistOrganizerItem item) {
+                    return true;
+                }
+
+                @Override
+                public void setValue(ChangelistOrganizerItem item, String value) {
+                    item.setFilePattern(value);
+                }
+            };
+
+    private static final ColumnInfo<ChangelistOrganizerItem, Boolean> CHECK_FULL_PATH_COLUMN =
+            new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.check.full.path")) {
+                @Override
+                public Boolean valueOf(ChangelistOrganizerItem item) {
+                    return item.isCheckFullPath();
+                }
+
+                @Override
+                public boolean isCellEditable(ChangelistOrganizerItem item) {
+                    return true;
+                }
+
+                @Override
+                public void setValue(ChangelistOrganizerItem item, Boolean value) {
+                    item.setCheckFullPath(value);
+                }
+
+                @Override
+                public Class<?> getColumnClass() {
+                    return Boolean.class;
+                }
+            };
+
+    private static final ColumnInfo<ChangelistOrganizerItem, Boolean> CONFIRMATION_DIALOG_COLUMN =
+            new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.confirmation.dialog")) {
+                @Override
+                public Boolean valueOf(ChangelistOrganizerItem item) {
+                    return item.isConfirmationDialog();
+                }
+
+                @Override
+                public boolean isCellEditable(ChangelistOrganizerItem item) {
+                    return true;
+                }
+
+                @Override
+                public void setValue(ChangelistOrganizerItem item, Boolean value) {
+                    item.setConfirmationDialog(value);
+                }
+
+                @Override
+                public Class<?> getColumnClass() {
+                    return Boolean.class;
+                }
+            };
+
+    @SuppressWarnings("unchecked")
+    private static final ColumnInfo<ChangelistOrganizerItem, ?>[] COLUMNS = new ColumnInfo[] {
+            ENABLED_COLUMN, CHANGE_LIST_NAME_COLUMN, FILE_PATTERN_COLUMN, CHECK_FULL_PATH_COLUMN, CONFIRMATION_DIALOG_COLUMN
+    };
+
+    private final ListTableModel<ChangelistOrganizerItem> tableModel = new ListTableModel<>(COLUMNS);
+    private final TableView<ChangelistOrganizerItem> table = new TableView<>(tableModel);
+
+    private final JBCheckBox onlyApplyItemsOnDefaultChangelistCheckBox =
+            new JBCheckBox(ChangelistOrganizerBundle.message("settings.only.apply.on.default.changelist"));
+    private final JBCheckBox stopApplyingItemsAfterFirstMatchCheckBox =
+            new JBCheckBox(ChangelistOrganizerBundle.message("settings.stop.after.first.match"));
+    private final JBCheckBox removeEmptyChangelistsCheckBox =
+            new JBCheckBox(ChangelistOrganizerBundle.message("settings.remove.empty.changelists"));
+    private final JBCheckBox automaticallyOrganizeCheckBox =
+            new JBCheckBox(ChangelistOrganizerBundle.message("settings.automatically.organize"));
+
+    private final JPanel panel;
 
     public ProjectSettingsPanel() {
-        super();
+        JPanel tablePanel = ToolbarDecorator.createDecorator(table)
+                .setAddAction(button -> {
+                    if (!tableAlreadyContainsEmptyItem()) {
+                        tableModel.addRow(new ChangelistOrganizerItem());
+                    }
+                })
+                .setRemoveAction(button -> {
+                    int selectedRow = table.getSelectedRow();
 
-        table.setModel(tableModel);
-        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getSelectionModel().addListSelectionListener(e -> {
-            boolean aRowIsSelected = table.getSelectedRow() != -1;
+                    if (selectedRow != -1) {
+                        tableModel.removeRow(selectedRow);
+                    }
+                })
+                .setMoveUpAction(button -> {
+                    int selectedRow = table.getSelectedRow();
 
-            deleteButton.setEnabled(aRowIsSelected && table.getSelectedRowCount() > 0);
-            upButton.setEnabled(aRowIsSelected && table.getSelectedRow() > 0);
-            downButton.setEnabled(aRowIsSelected && table.getSelectedRow() <=  table.getRowCount() - 2);
-        });
+                    if (selectedRow > 0) {
+                        tableModel.exchangeRows(selectedRow, selectedRow - 1);
+                        table.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
+                    }
+                })
+                .setMoveDownAction(button -> {
+                    int selectedRow = table.getSelectedRow();
 
-        addButton.setIcon(ChangelistOrganizerIcons.get("add.png"));
-        addButton.addActionListener(e -> {
-            if (!tableAlreadyContainsEmptyItem()) {
-                tableModel.getData().add(new ChangelistOrganizerItem());
-                tableModel.fireTableDataChanged();
-            }
-        });
+                    if (selectedRow != -1 && selectedRow < tableModel.getRowCount() - 1) {
+                        tableModel.exchangeRows(selectedRow, selectedRow + 1);
+                        table.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
+                    }
+                })
+                .createPanel();
 
-        deleteButton.setIcon(ChangelistOrganizerIcons.get("delete.png"));
-        deleteButton.addActionListener(e -> {
-            tableModel.getData().remove(table.getSelectedRow());
-            tableModel.fireTableDataChanged();
-        });
-
-        upButton.setIcon(ChangelistOrganizerIcons.get("up.png"));
-        upButton.addActionListener(e -> {
-            int selectedRow = table.getSelectedRow();
-            Collections.swap(tableModel.getData(), selectedRow, --selectedRow);
-            tableModel.fireTableDataChanged();
-            table.setRowSelectionInterval(selectedRow, selectedRow);
-        });
-
-        downButton.setIcon(ChangelistOrganizerIcons.get("down.png"));
-        downButton.addActionListener(e -> {
-            int selectedRow = table.getSelectedRow();
-            Collections.swap(tableModel.getData(), selectedRow, ++selectedRow);
-            tableModel.fireTableDataChanged();
-            table.setRowSelectionInterval(selectedRow, selectedRow);
-        });
-
-        ActionListener checkBoxActionListener = e -> modified = true;
-
-        onlyApplyItemsOnDefaultChangelistCheckBox.addActionListener(checkBoxActionListener);
-        stopApplyingItemsAfterFirstMatchCheckBox.addActionListener(checkBoxActionListener);
-        removeEmptyChangelistsCheckBox.addActionListener(checkBoxActionListener);
-        automaticallyOrganizeCheckBox.addActionListener(checkBoxActionListener);
-    }
-
-    public void setData(ProjectSettings projectSettings) {
-        tableModel.getData().clear();
-        tableModel.getData().addAll(projectSettings.getChangelistOrganizerItems() == null ? new ArrayList<>() : projectSettings.getChangelistOrganizerItems());
-
-        onlyApplyItemsOnDefaultChangelistCheckBox.setSelected(projectSettings.isOnlyApplyItemsOnDefaultChangelist());
-        stopApplyingItemsAfterFirstMatchCheckBox.setSelected(projectSettings.isStopApplyingItemsAfterFirstMatch());
-        removeEmptyChangelistsCheckBox.setSelected(projectSettings.isRemoveEmptyChangelists());
-        automaticallyOrganizeCheckBox.setSelected(projectSettings.isAutomaticallyOrganize());
-    }
-
-    public void storeSettings(ProjectSettings projectSettings) {
-        List<ChangelistOrganizerItem> cleansedChangelistOrganizerItems = new ArrayList<>();
-
-        for (ChangelistOrganizerItem changelistOrganizerItem : tableModel.getData()) {
-            if (changelistOrganizerItem.getChangeListName() != null && !changelistOrganizerItem.getChangeListName().trim().isEmpty()) {
-                cleansedChangelistOrganizerItems.add(changelistOrganizerItem);
-            }
-        }
-
-        projectSettings.setChangelistOrganizerItems(cleansedChangelistOrganizerItems);
-        projectSettings.setOnlyApplyItemsOnDefaultChangelist(onlyApplyItemsOnDefaultChangelistCheckBox.isSelected());
-        projectSettings.setStopApplyingItemsAfterFirstMatch(stopApplyingItemsAfterFirstMatchCheckBox.isSelected());
-        projectSettings.setRemoveEmptyChangelists(removeEmptyChangelistsCheckBox.isSelected());
-        projectSettings.setAutomaticallyOrganize(automaticallyOrganizeCheckBox.isSelected());
-    }
-
-    @Override
-    public void dispose() {
+        panel = FormBuilder.createFormBuilder()
+                .addComponentFillVertically(tablePanel, 0)
+                .addComponent(onlyApplyItemsOnDefaultChangelistCheckBox)
+                .addComponent(stopApplyingItemsAfterFirstMatchCheckBox)
+                .addComponent(removeEmptyChangelistsCheckBox)
+                .addComponent(automaticallyOrganizeCheckBox)
+                .getPanel();
     }
 
     public JPanel getPanel() {
         return panel;
     }
 
-    public boolean isModified() {
-        return modified || tableModel.isModified();
+    /**
+     * The settings currently shown in the UI, as a fresh, independent snapshot - never the same
+     * {@link ChangelistOrganizerItem} instances backing the table, so callers can't reach back in
+     * and mutate what the user is still editing.
+     */
+    public ProjectSettings getState() {
+        ProjectSettings settings = new ProjectSettings();
+
+        List<ChangelistOrganizerItem> items = new ArrayList<>();
+
+        for (ChangelistOrganizerItem item : tableModel.getItems()) {
+            if (item.getChangeListName() != null && !item.getChangeListName().trim().isEmpty()) {
+                items.add(new ChangelistOrganizerItem(item));
+            }
+        }
+
+        settings.setChangelistOrganizerItems(items);
+        settings.setOnlyApplyItemsOnDefaultChangelist(onlyApplyItemsOnDefaultChangelistCheckBox.isSelected());
+        settings.setStopApplyingItemsAfterFirstMatch(stopApplyingItemsAfterFirstMatchCheckBox.isSelected());
+        settings.setRemoveEmptyChangelists(removeEmptyChangelistsCheckBox.isSelected());
+        settings.setAutomaticallyOrganize(automaticallyOrganizeCheckBox.isSelected());
+
+        return settings;
     }
 
-    public static class TableModel extends AbstractTableModel
-    {
-        private final String[] columnNames = new String[] { ChangelistOrganizerBundle.message("settings.table.column.enabled"),
-                                                            ChangelistOrganizerBundle.message("settings.table.column.changelist.name"),
-                                                            ChangelistOrganizerBundle.message("settings.table.column.file.pattern"),
-                                                            ChangelistOrganizerBundle.message("settings.table.column.check.full.path"),
-                                                            ChangelistOrganizerBundle.message("settings.table.column.confirmation.dialog") };
+    /**
+     * Loads a deep copy of the given settings into the UI, so further edits in the table can
+     * never write through to the caller's (typically persisted) objects.
+     */
+    public void setState(ProjectSettings settings) {
+        List<ChangelistOrganizerItem> items = new ArrayList<>();
 
-        private final java.util.List<ChangelistOrganizerItem> data = new ArrayList<>();
-        private boolean modified = false;
-
-        public TableModel(List<ChangelistOrganizerItem> data) {
-            this.data.addAll(data);
+        for (ChangelistOrganizerItem item : settings.getChangelistOrganizerItems()) {
+            items.add(new ChangelistOrganizerItem(item));
         }
 
-        public List<ChangelistOrganizerItem> getData() {
-            return data;
-        }
+        tableModel.setItems(items);
 
-        public boolean isModified() {
-            return modified;
-        }
+        onlyApplyItemsOnDefaultChangelistCheckBox.setSelected(settings.isOnlyApplyItemsOnDefaultChangelist());
+        stopApplyingItemsAfterFirstMatchCheckBox.setSelected(settings.isStopApplyingItemsAfterFirstMatch());
+        removeEmptyChangelistsCheckBox.setSelected(settings.isRemoveEmptyChangelists());
+        automaticallyOrganizeCheckBox.setSelected(settings.isAutomaticallyOrganize());
+    }
 
-        @Override
-        public int getRowCount() {
-            return data.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            ChangelistOrganizerItem rowChangelistOrganizerItem = data.get(rowIndex);
-
-            switch (columnIndex) {
-                case 0:
-                    return rowChangelistOrganizerItem.isEnabled();
-                case 1:
-                    return rowChangelistOrganizerItem.getChangeListName() != null ? rowChangelistOrganizerItem.getChangeListName() : "";
-                case 2:
-                    return rowChangelistOrganizerItem.getFilePattern() != null ? rowChangelistOrganizerItem.getFilePattern() : "";
-                case 3:
-                    return rowChangelistOrganizerItem.isCheckFullPath();
-                case 4:
-                    return rowChangelistOrganizerItem.isConfirmationDialog();
-            }
-
-            throw new IllegalArgumentException();
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            Object value = getValueAt(0, columnIndex);
-            return (value != null ? value.getClass() : String.class);
-        }
-
-        @Override
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return true;
-        }
-
-        @Override
-        public void setValueAt(Object newValue, int rowIndex, int columnIndex) {
-            if (newValue == null) {
-                return;
-            }
-
-            ChangelistOrganizerItem rowChangelistOrganizerItem = data.get(rowIndex);
-
-            Object oldValue = new Object();
-
-            switch (columnIndex) {
-                case 0:
-                    oldValue = rowChangelistOrganizerItem.isEnabled();
-                    rowChangelistOrganizerItem.setEnabled((Boolean) newValue);
-                    break;
-                case 1:
-                    oldValue = rowChangelistOrganizerItem.getChangeListName();
-                    rowChangelistOrganizerItem.setChangeListName((String) newValue);
-                    break;
-                case 2:
-                    oldValue = rowChangelistOrganizerItem.getFilePattern();
-                    rowChangelistOrganizerItem.setFilePattern((String) newValue);
-                    break;
-                case 3:
-                    oldValue = rowChangelistOrganizerItem.isCheckFullPath();
-                    rowChangelistOrganizerItem.setCheckFullPath((Boolean) newValue);
-                    break;
-                case 4:
-                    oldValue = rowChangelistOrganizerItem.isConfirmationDialog();
-                    rowChangelistOrganizerItem.setConfirmationDialog((Boolean) newValue);
-                    break;
-            }
-
-            if (!Objects.equals(newValue, oldValue)) {
-                modified = true;
-            }
-        }
+    @Override
+    public void dispose() {
     }
 
     private boolean tableAlreadyContainsEmptyItem() {
-        boolean containsEmptyItem = false;
-
-        for (ChangelistOrganizerItem changelistOrganizerItem : tableModel.getData()) {
-            if (!changelistOrganizerItem.isEnabled() &
-                (changelistOrganizerItem.getChangeListName() == null || changelistOrganizerItem.getChangeListName().trim().isEmpty()) &
-                (changelistOrganizerItem.getFilePattern() == null || changelistOrganizerItem.getFilePattern().trim().isEmpty()) &
-                !changelistOrganizerItem.isCheckFullPath() &
-                !changelistOrganizerItem.isConfirmationDialog()) {
-                containsEmptyItem = true;
-                break;
+        for (ChangelistOrganizerItem item : tableModel.getItems()) {
+            if (!item.isEnabled()
+                    && (item.getChangeListName() == null || item.getChangeListName().trim().isEmpty())
+                    && (item.getFilePattern() == null || item.getFilePattern().trim().isEmpty())
+                    && !item.isCheckFullPath()
+                    && !item.isConfirmationDialog()) {
+                return true;
             }
         }
 
-        return containsEmptyItem;
+        return false;
     }
 }
