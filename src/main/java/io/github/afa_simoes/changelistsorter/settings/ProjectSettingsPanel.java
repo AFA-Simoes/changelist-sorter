@@ -1,6 +1,10 @@
 package io.github.afa_simoes.changelistsorter.settings;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.table.TableView;
@@ -9,8 +13,14 @@ import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.ListTableModel;
 import io.github.afa_simoes.changelistsorter.ChangelistOrganizerBundle;
 import io.github.afa_simoes.changelistsorter.ChangelistOrganizerItem;
+import org.jetbrains.annotations.NotNull;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +74,19 @@ public class ProjectSettingsPanel implements Disposable {
                 }
             };
 
+    // A pattern containing '/' can never match when checkFullPath is off: a bare file name never
+    // contains a path separator, so the rule would silently never fire. Flag it in the table
+    // instead of leaving people to discover it by confusion.
+    private static final TableCellRenderer PATTERN_NEEDS_FULL_PATH_WARNING_RENDERER = new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            label.setIcon(AllIcons.General.Warning);
+            label.setToolTipText(ChangelistOrganizerBundle.message("settings.table.warning.pattern.needs.full.path"));
+            return label;
+        }
+    };
+
     private static final ColumnInfo<ChangelistOrganizerItem, String> FILE_PATTERN_COLUMN =
             new ColumnInfo<>(ChangelistOrganizerBundle.message("settings.table.column.file.pattern")) {
                 @Override
@@ -79,6 +102,11 @@ public class ProjectSettingsPanel implements Disposable {
                 @Override
                 public void setValue(ChangelistOrganizerItem item, String value) {
                     item.setFilePattern(value);
+                }
+
+                @Override
+                public TableCellRenderer getRenderer(ChangelistOrganizerItem item) {
+                    return item != null && patternCanNeverMatch(item) ? PATTERN_NEEDS_FULL_PATH_WARNING_RENDERER : null;
                 }
             };
 
@@ -177,6 +205,35 @@ public class ProjectSettingsPanel implements Disposable {
                         table.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
                     }
                 })
+                .addExtraAction(new AnAction(
+                        ChangelistOrganizerBundle.message("settings.table.button.duplicate.text"),
+                        ChangelistOrganizerBundle.message("settings.table.button.duplicate.description"),
+                        AllIcons.Actions.Copy
+                ) {
+                    @Override
+                    public void actionPerformed(@NotNull AnActionEvent event) {
+                        int selectedRow = table.getSelectedRow();
+
+                        if (selectedRow == -1) {
+                            return;
+                        }
+
+                        List<ChangelistOrganizerItem> items = new ArrayList<>(tableModel.getItems());
+                        items.add(selectedRow + 1, new ChangelistOrganizerItem(items.get(selectedRow)));
+                        tableModel.setItems(items);
+                        table.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
+                    }
+
+                    @Override
+                    public void update(@NotNull AnActionEvent event) {
+                        event.getPresentation().setEnabled(table.getSelectedRow() != -1);
+                    }
+
+                    @Override
+                    public @NotNull ActionUpdateThread getActionUpdateThread() {
+                        return ActionUpdateThread.EDT;
+                    }
+                })
                 .createPanel();
 
         panel = FormBuilder.createFormBuilder()
@@ -238,6 +295,11 @@ public class ProjectSettingsPanel implements Disposable {
 
     @Override
     public void dispose() {
+    }
+
+    private static boolean patternCanNeverMatch(ChangelistOrganizerItem item) {
+        String pattern = item.getFilePattern();
+        return pattern != null && pattern.contains("/") && !item.isCheckFullPath();
     }
 
     private boolean tableAlreadyContainsEmptyItem() {

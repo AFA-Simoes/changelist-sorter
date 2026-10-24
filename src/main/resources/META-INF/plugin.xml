@@ -22,6 +22,10 @@
                          bundle="messages.ChangelistOrganizerBundle" />
     <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.settings.ProjectSettingsService"/>
     <projectService serviceImplementation="io.github.afa_simoes.changelistsorter.organize.ChangelistOrganizerService"/>
+    <notificationGroup id="io.github.afa_simoes.changelistsorter.Organize"
+                        displayType="BALLOON"
+                        bundle="messages.ChangelistOrganizerBundle"
+                        key="notification.group.name"/>
   </extensions>
 
   <projectListeners>

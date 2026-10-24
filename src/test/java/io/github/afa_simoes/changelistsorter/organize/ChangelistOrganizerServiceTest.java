@@ -1,5 +1,9 @@
 package io.github.afa_simoes.changelistsorter.organize;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.vcs.changes.Change;
@@ -120,14 +124,22 @@ class ChangelistOrganizerServiceTest {
 
         ChangelistOrganizerService service = new ChangelistOrganizerService(project);
 
+        NotificationGroup notificationGroup = mock(NotificationGroup.class);
+        when(notificationGroup.createNotification(anyString(), eq(NotificationType.INFORMATION))).thenReturn(mock(Notification.class));
+
+        NotificationGroupManager notificationGroupManager = mock(NotificationGroupManager.class);
+        when(notificationGroupManager.getNotificationGroup(anyString())).thenReturn(notificationGroup);
+
         try (
                 MockedStatic<ProjectUtil> projectUtil = mockStatic(ProjectUtil.class);
                 MockedStatic<ChangeListManager> changeListManagerStatic = mockStatic(ChangeListManager.class);
-                MockedStatic<ProjectSettings> projectSettingsStatic = mockStatic(ProjectSettings.class)
+                MockedStatic<ProjectSettings> projectSettingsStatic = mockStatic(ProjectSettings.class);
+                MockedStatic<NotificationGroupManager> notificationGroupManagerStatic = mockStatic(NotificationGroupManager.class)
         ) {
             projectUtil.when(() -> ProjectUtil.guessProjectDir(any())).thenReturn(null);
             changeListManagerStatic.when(() -> ChangeListManager.getInstance(project)).thenReturn(changeListManager);
             projectSettingsStatic.when(() -> ProjectSettings.storedSettings(project)).thenReturn(settings(item("images", "*.jpg")));
+            notificationGroupManagerStatic.when(NotificationGroupManager::getInstance).thenReturn(notificationGroupManager);
 
             // moving a file fires changesAdded on the real listener, which - with auto-organize on
             // - re-enters organize() through the very run that triggered it. Simulate that here.

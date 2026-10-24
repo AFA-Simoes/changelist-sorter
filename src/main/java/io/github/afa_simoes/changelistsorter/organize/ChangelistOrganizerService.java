@@ -1,5 +1,7 @@
 package io.github.afa_simoes.changelistsorter.organize;
 
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectUtil;
@@ -27,6 +29,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * static entry point.
  */
 public final class ChangelistOrganizerService {
+    // Must match the <notificationGroup id="..."> registered in plugin.xml.
+    private static final String NOTIFICATION_GROUP_ID = "io.github.afa_simoes.changelistsorter.Organize";
+
     private final Project project;
 
     /**
@@ -65,6 +70,7 @@ public final class ChangelistOrganizerService {
             }
 
             apply(plan, changeListManager, settings.isRemoveEmptyChangelists());
+            notifyCompletion(plan);
         } finally {
             running.set(false);
         }
@@ -164,5 +170,21 @@ public final class ChangelistOrganizerService {
                 }
             }
         }
+    }
+
+    /**
+     * A run with no confirmation dialog would otherwise give no feedback at all - especially
+     * noticeable for the automatic-organize path, where nothing else indicates anything happened.
+     */
+    private void notifyCompletion(OrganizePlan plan) {
+        long changeListCount = plan.getMoves().stream().map(OrganizePlan.Move::targetChangeListName).distinct().count();
+
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup(NOTIFICATION_GROUP_ID)
+                .createNotification(
+                        ChangelistOrganizerBundle.message("organize.notification.content", plan.getMoves().size(), changeListCount),
+                        NotificationType.INFORMATION
+                )
+                .notify(project);
     }
 }
