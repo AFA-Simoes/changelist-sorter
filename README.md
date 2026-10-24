@@ -19,20 +19,12 @@ the plugin working on current IntelliJ Platform releases and is maintained indep
 [AFA-Simoes/changelist-sorter](https://github.com/AFA-Simoes/changelist-sorter).
 
 It is published as a **separate plugin** with its own ID and name — it is not an update to,
-and is not endorsed by, the original. The original plugin remains available as
-[Changelist Organizer](https://plugins.jetbrains.com/plugin/9216) on the JetBrains Marketplace.
+and is not endorsed by, the original. The plugin's original JetBrains Marketplace page 
+is no longer available: [Changelist Organizer](https://plugins.jetbrains.com/plugin/9216).
 
 Because both plugins store their settings in the same project file, existing Changelist
 Organizer rules are picked up automatically when you switch. Do not run both plugins at the
 same time.
-
-##  Screenshots
-
-> ![screenshot1](screenshots/settings.png)
-
-> ![screenshot2](screenshots/changelist-before.png)
-
-> ![screenshot3](screenshots/changelist-after.png)
 
 ## Installation
 
