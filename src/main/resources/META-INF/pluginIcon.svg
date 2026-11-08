@@ -1,10 +1,51 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Changelist Document Base (Subtle gray) -->
-  <path d="M3 1h7l4 4v9a2 2 0 0 1 -2 2H3a2 2 0 0 1 -2-2V3a2 2 0 0 1 2-2z" fill="#E8E8E8" stroke="#6E6E6E" stroke-width="0.9"/>
-  <!-- Top Right Fold -->
-  <path d="M10 1l4 4h-3a1 1 0 0 1 -1-1V1z" fill="#CFCFCF" stroke="#6E6E6E" stroke-width="0.9"/>
-  <!-- Sorting Arrow (Blue, indicating action/sorting) -->
-  <path d="M5 6h6M5 9h4M5 12h2" stroke="#357EC7" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- Arrow Head (Down/Sorted) -->
-  <path d="M11 14l2-2m0 0l-2-2m2 2H7" stroke="#357EC7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="462 383 1230 1230" role="img" aria-labelledby="title desc">
+  <title id="title">Folder and analytics documents icon</title>
+  <desc id="desc">An orange folder in front of layered blue and purple documents, with an analytics node graph, gear, and filter symbol, on a transparent background.</desc>
+  <defs>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8d20d8"/><stop offset="1" stop-color="#6027df"/></linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7842e8"/><stop offset="1" stop-color="#4931d7"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4e78f0"/><stop offset="1" stop-color="#3c59dc"/></linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#e7f2ff"/><stop offset="1" stop-color="#c8ddff"/></linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7900"/><stop offset="1" stop-color="#ff5b00"/></linearGradient>
+    <linearGradient id="folderEdge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4b00"/><stop offset="1" stop-color="#f04400"/></linearGradient>
+    <linearGradient id="graph" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b54c9e"/><stop offset="1" stop-color="#7821dc"/></linearGradient>
+  </defs>
+  <!-- Rear document -->
+  <rect x="777" y="536" width="656" height="865" rx="54" fill="url(#paper)" stroke="url(#purple)" stroke-width="42"/>
+  <!-- Middle document -->
+  <rect x="690" y="640" width="615" height="812" rx="52" fill="url(#paper)" stroke="url(#violet)" stroke-width="42"/>
+  <!-- Front document -->
+  <rect x="616" y="742" width="584" height="714" rx="48" fill="#fff" stroke="url(#blue)" stroke-width="42"/>
+  <g fill="none" stroke="url(#blue)" stroke-width="42" stroke-linecap="round">
+    <path d="M730 853 H1116"/>
+    <path d="M730 926 H1116"/>
+    <path d="M860 1020 H1116"/>
+  </g>
+
+  <!-- Folder body, layered over the documents -->
+  <path d="M580 1010 H724 Q753 1010 771 1035 L821 1108 Q839 1133 868 1133 H1171 Q1222 1133 1222 1184 V1474 Q1222 1515 1181 1515 H580 Q536 1515 536 1471 V1054 Q536 1010 580 1010Z" fill="url(#folderEdge)"/>
+  <path d="M588 1052 H720 Q741 1052 755 1072 L810 1152 Q829 1177 861 1177 H1168 Q1180 1177 1180 1190 V1466 Q1180 1473 1171 1473 H581 Q578 1473 578 1468 V1062 Q578 1052 588 1052Z" fill="url(#orange)"/>
+
+  <!-- Analytics connector graph -->
+  <g fill="none" stroke="url(#graph)" stroke-width="27" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1172 1408 L1300 1320 L1300 1110 L1440 1018 L1570 925 L1570 720"/>
+    <path d="M1440 1018 L1570 1125" stroke="#f26a1b"/>
+    <path d="M1570 925 L1570 1125" stroke="#f26a1b"/>
+  </g>
+  <g>
+    <circle cx="1172" cy="1408" r="43" fill="#6328dc"/>
+    <circle cx="1300" cy="1320" r="43" fill="#7c26df"/>
+    <circle cx="1300" cy="1110" r="43" fill="#8a1ed9"/>
+    <circle cx="1440" cy="1018" r="42" fill="#c34b9b"/>
+    <circle cx="1570" cy="925" r="43" fill="#ff7800"/>
+    <circle cx="1570" cy="720" r="42" fill="#b14a9e"/>
+    <circle cx="1570" cy="1125" r="43" fill="#ff7900"/>
+  </g>
+
+  <!-- Gear -->
+  <path d="M1521.5,498.4 L1526.2,497.6 L1526.7,482.4 L1543.3,482.4 L1543.8,497.6 L1548.5,498.4 L1572.6,508.3 L1576.4,511.1 L1587.5,500.7 L1599.3,512.5 L1588.9,523.6 L1591.7,527.4 L1601.6,551.5 L1602.4,556.2 L1617.6,556.7 L1617.6,573.3 L1602.4,573.8 L1601.6,578.5 L1591.7,602.6 L1588.9,606.4 L1599.3,617.5 L1587.5,629.3 L1576.4,618.9 L1572.6,621.7 L1548.5,631.6 L1543.8,632.4 L1543.3,647.6 L1526.7,647.6 L1526.2,632.4 L1521.5,631.6 L1497.4,621.7 L1493.6,618.9 L1482.5,629.3 L1470.7,617.5 L1481.1,606.4 L1478.3,602.6 L1468.4,578.5 L1467.6,573.8 L1452.4,573.3 L1452.4,556.7 L1467.6,556.2 L1468.4,551.5 L1478.3,527.4 L1481.1,523.6 L1470.7,512.5 L1482.5,500.7 L1493.6,511.1 L1497.4,508.3 Z" fill="url(#purple)"/>
+  <circle cx="1535" cy="565" r="28" fill="#fff"/>
+
+  <!-- Filter funnel -->
+  <path d="M1390 1212 Q1380 1212 1388 1225 L1459 1333 Q1464 1341 1464 1351 V1424 Q1464 1437 1477 1430 L1513 1411 Q1521 1407 1521 1397 V1351 Q1521 1340 1528 1330 L1590 1227 Q1598 1212 1581 1212Z" fill="#fff" stroke="#30246f" stroke-width="22" stroke-linejoin="round"/>
 </svg>

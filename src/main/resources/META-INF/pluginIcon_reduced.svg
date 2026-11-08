@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="65 61 350 350" role="img" aria-label="Folder with document icon">
+  <defs>
+    <linearGradient id="folderFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#ff5a00"/>
+    </linearGradient>
+    <linearGradient id="folderStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3d00"/>
+      <stop offset="1" stop-color="#f04416"/>
+    </linearGradient>
+    <linearGradient id="docStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4778f4"/>
+      <stop offset="1" stop-color="#6250e8"/>
+    </linearGradient>
+    <linearGradient id="docLine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4e75ee"/>
+      <stop offset="1" stop-color="#5369e9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rear document -->
+  <path d="M205 112
+           Q205 92 225 92
+           H347 Q367 92 367 112
+           V350 Q367 370 347 370
+           H225 Q205 370 205 350 Z"
+        fill="#dceaff" stroke="#8528d7" stroke-width="13" stroke-linejoin="round"/>
+
+  <!-- Front document -->
+  <path d="M166 138
+           Q166 118 186 118
+           H321 Q341 118 341 138
+           V360 Q341 380 321 380
+           H186 Q166 380 166 360 Z"
+        fill="#dceaff" stroke="#6250e8" stroke-width="13" stroke-linejoin="round"/>
+
+  <!-- Document face -->
+  <path d="M148 163
+           Q148 145 166 145
+           H289 Q307 145 307 163
+           V355 Q307 373 289 373
+           H166 Q148 373 148 355 Z"
+        fill="#ffffff" stroke="url(#docStroke)" stroke-width="13" stroke-linejoin="round"/>
+
+  <!-- Document text lines -->
+  <path d="M180 198 H276 M180 220 H276 M212 247 H276"
+        fill="none" stroke="url(#docLine)" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- Foreground folder -->
+  <path d="M129 254
+           H177 Q188 254 195 265
+           L211 288
+           Q216 296 227 296
+           H319 Q334 296 334 312
+           V365 Q334 381 318 381
+           H129 Q112 381 112 364
+           V272 Q112 254 129 254 Z"
+        fill="url(#folderFill)" stroke="url(#folderStroke)" stroke-width="11" stroke-linejoin="round"/>
+</svg>

@@ -17,7 +17,7 @@ public final class ChangelistOrganizerBundle extends DynamicBundle {
     private static final ChangelistOrganizerBundle INSTANCE = new ChangelistOrganizerBundle();
 
     private ChangelistOrganizerBundle() {
-        super(BUNDLE);
+        super(ChangelistOrganizerBundle.class, BUNDLE);
     }
 
     public static @NotNull String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, Object @NotNull ... params) {
