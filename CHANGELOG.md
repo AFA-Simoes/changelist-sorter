@@ -22,6 +22,18 @@ Entries below 2.0.0 are from the original project and are retained for provenanc
 - automatic organizing no longer risks re-entering itself through its own change-list listener,
   and no longer shows more than one confirmation dialog per run, or on a VCS callback thread
 
+### Added
+- a warning icon/tooltip in the settings table when a File Pattern contains `/` but
+  "Check Full Path" is off - that combination can never match, since a bare file name never
+  contains a path separator
+- a notification after a successful organize run, summarising how many files moved into how
+  many changelists - previously a run with no confirmation dialog gave no feedback at all
+- a "Duplicate" button in the settings table toolbar, for cloning a rule to tweak
+
+### Changed
+- the plugin's own icon, replacing the one inherited unchanged from the original project
+- the Settings page is now titled "Changelist Sorter" instead of "Changelist Organizer"
+
 ### Fixed
 - **corrected wildcard-to-regex pattern matching**: `?` now matches exactly one character
   (previously it matched zero-or-one, so e.g. `Foo?.txt` incorrectly matched `Foo.txt`), and

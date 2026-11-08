@@ -1,1 +1,1 @@
-rootProject.name = "changelistorganizer"
+rootProject.name = "changelist-sorter"
