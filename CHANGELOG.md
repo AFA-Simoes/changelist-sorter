@@ -6,6 +6,19 @@ Entries below 2.0.0 are from the original project and are retained for provenanc
 
 ## [Unreleased]
 
+## [2.0.1]
+
+### Changed
+- replaced the plugin icon with a new design, properly cropped so it fills the icon frame
+  instead of floating in a lot of empty padding; the toolbar/dialog sizes (16px/32px) use a
+  simplified variant, since the full design didn't stay legible that small
+- the build artifact is now named `changelist-sorter-<version>.zip` instead of
+  `changelistorganizer-<version>.zip`
+
+### Fixed
+- replaced a deprecated `DynamicBundle(String)` constructor call (flagged by the Marketplace's
+  API-usage check) with the non-deprecated `DynamicBundle(Class<?>, String)` overload
+
 ## [2.0.0]
 
 ### Changed
