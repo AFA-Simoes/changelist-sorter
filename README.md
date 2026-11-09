@@ -34,8 +34,11 @@ Use the IDE's built-in plugin system:
 * search for "Changelist Sorter"
 * click the `Install`-button
 
+Can't find it by searching? Install it directly from its
+[JetBrains Marketplace page](https://plugins.jetbrains.com/plugin/35915-changelist-sorter).
+
 Alternatively, download a release archive from the
-[Releases page](https://github.com/AFA-Simoes/changelist-sorter/releases) and install it via
+[GitHub Releases page](https://github.com/AFA-Simoes/changelist-sorter/releases) and install it via
 `File` --> `Settings` --> `Plugins` --> `⚙` --> `Install Plugin from Disk...`.
 
 ## Development
